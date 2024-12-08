@@ -1,4 +1,4 @@
-from functions import *
+from utils import *
 
 '''
 El gameplay consta de un sistema de turnos, en el que tras dar la bienvenida se crean los tableros.
@@ -9,7 +9,7 @@ Se dará a P1 la opción de elegir cara o cruz, y se sorte el incio del juego.
 
 En su turno, cada jugador disparará a una coordenada, mientras acierte podrá seguir disparando, pero en el momento que falle pasará su turno.
 
-El juego acabará cuando uno de los jugadores destruya todos los barcos ("O") del tablero rival.
+El juego acabará cuando uno de los jugadores destruya todos los barcos ("⚓") del tablero rival.
 '''
 import time
 print("¡Hola Grumete! Prepara la artillería, que empieza el juego...")
@@ -28,7 +28,7 @@ tablero_oculto = crear_tablero(10) # El tablero sobre el que ataque P1, sirve de
 tablero_cpu_show = crear_tablero(10, show=False) # El tablero de ayuda de P1, no muestra posiciones pero si se da agua o barcos acertados.
 barcos_partida = (2,2,2,3,3,4)
 
-ask1_p1 = input("Lo primero que debemos hacer es preparar la estrategia, ¿quieres encargarte de ello o delegar en el Almirante Random?").lower()
+ask1_p1 = input("Lo primero que debemos hacer es preparar la estrategia, ¿quieres encargarte de ello o delegar en el Almirante Random? ").lower()
 if "deleg" in ask1_p1:
     print("De acuerdo el Almirante Random colocará tus barcos")
     posiciones_p1 = []
@@ -164,12 +164,14 @@ time.sleep(0.5)
 print(".")
 time.sleep(0.5)
 # Creamos los barcos y los posicionamos
+barcos_partida_cpu = (2,2,2,3,3,4)
 posiciones_cpu = []
 coor_ut = []
-for eslora in barcos_partida:
+for eslora in barcos_partida_cpu:
     posiciones_cpu.append(crear_barcos(eslora))
+#posiciones_cpu = [item for item in posiciones_cpu if item is not None]
 for posicion in posiciones_cpu:
-    colocar_barco(posicion, tablero_oculto, show=False)
+    colocar_barco(posicion, tablero_oculto, show=False, pos=True)
 for posicion in posiciones_cpu:
     colocar_barco(posicion, tablero_cpu_show, show=False, pos=False)
 print("Tablero CPU")
@@ -198,6 +200,6 @@ contador_pc = 0
 disparos_jugador = set()
 disparos_realizados = set()
 
-turno_jugador(tablero_cpu_show, tablero_oculto, contador)
+turno_jugador(tablero_cpu_show, tablero_oculto, contador, disparos_jugador)
 turno_cpu(tablero_p1,disparos_realizados,contador_pc)
-play(tablero_p1,tablero_oculto,contador,contador_pc, disparos_jugador ,disparos_realizados)
+play(tablero_p1,tablero_cpu_show, tablero_oculto,contador,contador_pc, disparos_realizados, disparos_jugador)
