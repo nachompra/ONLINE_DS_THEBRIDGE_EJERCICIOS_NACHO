@@ -168,7 +168,7 @@ barcos_partida_cpu = (2,2,2,3,3,4)
 posiciones_cpu = []
 coor_ut = []
 for eslora in barcos_partida_cpu:
-    posiciones_cpu.append(crear_barcos(eslora))
+    posiciones_cpu.append(crear_barcos_cpu(eslora))
 #posiciones_cpu = [item for item in posiciones_cpu if item is not None]
 for posicion in posiciones_cpu:
     colocar_barco(posicion, tablero_oculto, show=False, pos=True)
