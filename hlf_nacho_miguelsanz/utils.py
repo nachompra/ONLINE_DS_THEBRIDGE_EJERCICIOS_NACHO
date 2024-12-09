@@ -10,7 +10,7 @@ def crear_tablero(tamano: int, show=True):
     tablero = []
 
     '''
-    Procedemos a rellenar el tablero con - indicando agua por explorar.
+    Procedemos a rellenar el tablero con 🟦 indicando agua por explorar.
     Para ello nos servimos de un bucle for anidado, con el cual,
     sirviéndonos del tamano definido en un range, recorremos n filas
     y columnas con el icono de agua.
