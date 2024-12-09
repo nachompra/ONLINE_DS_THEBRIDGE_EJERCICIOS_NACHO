@@ -106,22 +106,24 @@ def crear_barcos(n):
                 '''
                 coor_ut.extend(list(coor))
                 return list(coor)
-            
-    def crear_barcos_cpu(n):
 
-        '''
-        Para crear barcos de n posiciones en el tablero (eslora), 
-        generaremos un set de coordenadas para evitar duplicidades,
-        también definiremos los posibles movimientos en el tablero
-        (vertical->arriba y abajo-, horizontal->izquierda y derecha.)
-        y generaremos un contador de intentos limitado a 100 para evitar
-        que el bucle while que crea barcos pueda entrar en una ejecución
-        infinita.
-        '''
-    # Coordenadas utilizadas, se limpia cada vez que ejecuta la función
+coor_ut_pc = []  # Coordenadas utilizadas          
+def crear_barcos_cpu(n):
+
+    '''
+    Para crear barcos de n posiciones en el tablero (eslora), 
+    generaremos un set de coordenadas para evitar duplicidades,
+    también definiremos los posibles movimientos en el tablero
+    (vertical->arriba y abajo-, horizontal->izquierda y derecha.)
+    y generaremos un contador de intentos limitado a 100 para evitar
+    que el bucle while que crea barcos pueda entrar en una ejecución
+    infinita.
+    '''
+
     direc = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Direcciones: derecha, abajo, izquierda, arriba
     max_intentos = 100  # Máximo número de intentos para colocar un barco
     intentos = 0  # Contador de intentos
+
     while intentos < max_intentos:
         x, y = random.randint(0, 9), random.randint(0, 9)  # Coordenada de inicio aleatoria
         new_direc = random.choice(direc)  # Dirección aleatoria
@@ -133,20 +135,20 @@ def crear_barcos(n):
         for _ in range(n - 1):
             x, y = x + new_direc[0], y + new_direc[1]
             # Verificamos si la nueva coordenada es válida (en el tablero y no ocupada)
-            if not (0 <= x < 10 and 0 <= y < 10 and (x, y) not in coor and (x, y) not in coor_ut):
+            if not (0 <= x < 10 and 0 <= y < 10 and (x, y) not in coor and (x, y) not in coor_ut_pc):
                 break  # Si no es válida, rompemos el bucle
             coor.add((x, y))  # Si es válida, la añadimos al conjunto de coordenadas
 
         # Si hemos añadido n coordenadas, tenemos un barco válido
         if len(coor) == n:
             # Añadimos las coordenadas a las coordenadas utilizadas
-            if not any(abs(x1 - x2) < 2 and abs(y1 - y2) < 2 for (x1, y1) in coor for (x2, y2) in coor_ut):
+            if not any(abs(x1 - x2) < 2 and abs(y1 - y2) < 2 for (x1, y1) in coor for (x2, y2) in coor_ut_pc):
                 ''' 
                 Este condiconal se asegura de que se cumple al menos una (any) de las cláusulas que le presentamos 
                 en cada bucle for anidado, en el que comprueba si en cada movimiento horizontal o vertical guarda
                 margen con el barco anterior, y si lo guarda que no esté dentro de las coordenadas utilizadas.
                 '''
-                coor_ut.extend(list(coor))
+                coor_ut_pc.extend(list(coor))
                 return list(coor)
 
         # Si no se pudo generar un barco válido, incrementamos el contador de intentos
@@ -159,8 +161,8 @@ def crear_barcos(n):
             new_direc = random.choice(direc_restante)
    
     # Si no se pudo generar el barco después de los intentos, devolvemos None
-   
-    return None
+    #coor_ut = [] # Al finalizar la iteración limpiamos la lista para el siguiente jugador. (Importante cuando integramos en un bucle for)
+    return
 
 def turno_jugador(tablero_rival, tablero_oculto, contador, disparos_jugador):
     '''
